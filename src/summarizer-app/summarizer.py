@@ -25,8 +25,10 @@ def _fetch_title_and_summaries(transcript):
         1) The topic discussed in the hearing in at most 7 words
         2) A one sentence summary of the hearing
         3) A four sentence summary of the hearing
+        4) A list of three one-word tags related to the hearing
+        5) The date of the hearing in the same format as seen in the transcript
 
-        Ensure your response is a valid JSON string with keys "topic", "one_sentence_summary", and "four_sentence_summary".
+        Ensure your response is a valid JSON string with keys "topic", "one_sentence_summary", "four_sentence_summary", "tags", and "date".
         \"\"\"
         {transcript}
         \"\"\"
@@ -59,7 +61,6 @@ def fetch_image_from_title(title):
         "model": IMAGE_MODEL
     }
     response = session.post(url, json=data)
-    print("RAW RESPONSE:", response.json())
     return response.json()['data'][0]['url']
 
 if __name__ == "__main__":
@@ -71,6 +72,8 @@ if __name__ == "__main__":
     print("Topic:", result['topic'])
     print("One sentence summary:", result['one_sentence_summary'])
     print("Four sentence summary:", result['four_sentence_summary'])
+    print("Tags:", result['tags'])
+    print("Date:", result['date'])
 
     # Generate an image using the title
     topic = "Supplementary Estimates and Housing Finance"
