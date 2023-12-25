@@ -26,19 +26,8 @@ export const getStaticProps: GetStaticProps<
   }
 }
 
-export default function IndexPage(
-  props: InferGetStaticPropsType<typeof getStaticProps>,
-) {
-  const [posts] = useLiveQuery<Post[]>(props.posts, postsQuery)
-  return (
-    <Container>
-      <section>
-        {posts.length ? (
-          posts.map((post) => <Card key={post._id} post={post} />)
-        ) : (
-          <Welcome />
-        )}
-      </section>
-    </Container>
-  )
+const LandingPage = (props): JSX.Element => {
+  return <> Hello </>
 }
+
+export default LandingPage
