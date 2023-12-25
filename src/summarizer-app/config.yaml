@@ -1,4 +1,5 @@
 settings:
-  model: gpt-4-1106-preview
+  text_model: gpt-4-1106-preview
+  image_model: dall-e-3
   max_tokens: 1000
   temperature: 0
