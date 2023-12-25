@@ -1,13 +1,10 @@
-import type { GetStaticProps, InferGetStaticPropsType } from 'next'
-import { useLiveQuery } from 'next-sanity/preview'
+import type { GetStaticProps } from 'next'
 
-import Card from '~/components/Card'
-import Container from '~/components/Container'
-import Welcome from '~/components/Welcome'
 import { readToken } from '~/lib/sanity.api'
 import { getClient } from '~/lib/sanity.client'
-import { getPosts, type Post, postsQuery } from '~/lib/sanity.queries'
+import { getPosts, type Post } from '~/lib/sanity.queries'
 import type { SharedPageProps } from '~/pages/_app'
+import Landing from '~/views/Landing'
 
 export const getStaticProps: GetStaticProps<
   SharedPageProps & {
@@ -27,7 +24,7 @@ export const getStaticProps: GetStaticProps<
 }
 
 const LandingPage = (props): JSX.Element => {
-  return <> Hello </>
+  return <Landing/>
 }
 
 export default LandingPage
