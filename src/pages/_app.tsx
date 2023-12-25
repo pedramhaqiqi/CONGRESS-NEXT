@@ -1,6 +1,6 @@
 import '~/styles/global.css'
 
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, theme } from '@chakra-ui/react'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 
@@ -26,7 +26,7 @@ export default function App({
       </Head>
      <ChakraProvider>
         <Component {...pageProps} />
-    </ChakraProvider>   
+     </ChakraProvider>   
     </>
   )
 }
