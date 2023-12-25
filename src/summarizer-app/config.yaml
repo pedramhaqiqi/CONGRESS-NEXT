@@ -1,0 +1,4 @@
+settings:
+  model: gpt-4-1106-preview
+  max_tokens: 1000
+  temperature: 0
