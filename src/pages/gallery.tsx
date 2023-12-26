@@ -13,7 +13,6 @@ export const getStaticProps: GetStaticProps<
 > = async () => {
   const client = getClient({ token: readToken })
   const posts = await getArticles(client)
-  console.log(posts)
   return {
     props: {
       posts,
