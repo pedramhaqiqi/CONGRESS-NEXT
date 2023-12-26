@@ -18,10 +18,10 @@ export default function App({
   return (
     <>
        <Head>
-        {/* <meta
+        <meta
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        /> */}
+        />
         <title>CONGRESS</title>
       </Head>
      <ChakraProvider theme={theme}>
