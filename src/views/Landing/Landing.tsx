@@ -10,10 +10,12 @@ import {
     Text,
     useColorModeValue,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 import NavBar from "../components/NavBar";
 
 export default function CallToActionWithAnnotation() {
+  const router = useRouter();
 
   return (
     <>
@@ -45,7 +47,6 @@ export default function CallToActionWithAnnotation() {
               direction={"column"}
               spacing={3}
               align={"center"}
-            //   onClick={}
               alignSelf={"center"}
               position={"relative"}
             >
@@ -54,6 +55,7 @@ export default function CallToActionWithAnnotation() {
                 bg={"blue.400"}
                 rounded={"full"}
                 px={6}
+                onClick={() => router.push("/gallery")}
                 _hover={{
                   bg: "blue.500",
                 }}
