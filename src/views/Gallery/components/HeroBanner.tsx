@@ -5,8 +5,12 @@ import {
     Link,
     Text,
 } from "@chakra-ui/react";
+import { Article } from "~/content";
+import ArticleTags from "~/views/components/Tags";
 
-const RecentHearing = ({ title, tags, article, date, image }) => {
+const RecentHearing = (props: Article) => {
+    console.log('Recent',props);
+    const { topic, one_line_summary, four_line_summary, image, tags } = props;
   return (
     <Box>
       <Heading as="h1">Most Recent Hearing:</Heading>
@@ -23,23 +27,18 @@ const RecentHearing = ({ title, tags, article, date, image }) => {
           justifyContent="center"
           marginTop={{ base: "3", sm: "0" }}
         >
-          {/* Render tags */}
-          {/* {tags.map((tag, index) => (
-            <Text key={index} fontSize="md">
-              {tag}
-            </Text>
-          ))} */}
+         <ArticleTags tags={tags} color={"green"} marginTop={2} />
           <Heading marginTop="1">
             <Link
               fontSize="2xl"
               textDecoration="none"
               _hover={{ textDecoration: "none" }}
             >
-              {title}
+              {topic}
             </Link>
           </Heading>
           <Text as="p" marginTop="2" fontSize="lg">
-            {article}
+            {one_line_summary}
           </Text>
         </Box>
         <Box

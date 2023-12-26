@@ -23,7 +23,7 @@ export default function NavBar() {
             <Box>co:ngress</Box>
             <Stack direction={"row"} spacing={7}>
                 <Button bg={"gray.50"} onClick={toggleColorMode}>
-                  {colorMode === "dark" ? <MoonIcon /> : <SunIcon />}
+                  {colorMode === "dark" ? <MoonIcon color={"black"} /> : <SunIcon color={"black"} />}
                 </Button>
               </Stack>
           </Flex>

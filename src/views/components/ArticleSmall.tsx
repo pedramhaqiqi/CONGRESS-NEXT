@@ -1,17 +1,17 @@
-import React from "react";
 import {
-  Box,
-  Heading,
-  Link,
-  Image,
-  Button,
-  Text,
-  HStack,
-  Tag,
-  WrapItem,
-  SpaceProps,
-  ChakraProvider,
+    Box,
+    Button,
+    ChakraProvider,
+    Heading,
+    HStack,
+    Image,
+    Link,
+    SpaceProps,
+    Tag,
+    Text,
+    WrapItem,
 } from "@chakra-ui/react";
+import React from "react";
 
 interface IBlogTags {
   tags: Array<string>;
