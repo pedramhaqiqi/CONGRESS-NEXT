@@ -9,11 +9,9 @@ import { Article } from "~/content";
 import ArticleTags from "~/views/components/Tags";
 
 const RecentHearing = (props: Article) => {
-    console.log('Recent',props);
-    const { topic, one_line_summary, four_line_summary, image, tags } = props;
+  const { topic, one_line_summary, image, tags } = props;
   return (
     <Box>
-      <Heading as="h1">Most Recent Hearing:</Heading>
       <Box
         marginTop={{ base: "1", sm: "5" }}
         display="flex"
@@ -27,7 +25,8 @@ const RecentHearing = (props: Article) => {
           justifyContent="center"
           marginTop={{ base: "3", sm: "0" }}
         >
-         <ArticleTags tags={tags} color={"green"} marginTop={2} />
+         <Heading as="h1">Most Recent Hearing:</Heading>
+         <ArticleTags tags={tags} color={"green"} marginTop={5} />
           <Heading marginTop="1">
             <Link
               fontSize="2xl"

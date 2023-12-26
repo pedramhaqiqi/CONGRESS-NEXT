@@ -12,57 +12,12 @@ import {
     WrapItem,
 } from "@chakra-ui/react";
 import React from "react";
+import { Article } from "~/content";
+import ArticleTags from "./Tags";
 
-interface IBlogTags {
-  tags: Array<string>;
-  marginTop?: SpaceProps["marginTop"];
-}
 
-const BlogTags: React.FC<IBlogTags> = (props) => {
-  return (
-    <HStack spacing={2} marginTop={props.marginTop}>
-      {props.tags.map((tag) => {
-        return (
-          <Tag size={"md"} variant="solid" colorScheme="orange" key={tag}>
-            {tag}
-          </Tag>
-        );
-      })}
-    </HStack>
-  );
-};
-
-interface BlogAuthorProps {
-  date?: string;
-  link: string;
-}
-
-interface SmallArticleProps {
-  title?: string;
-  date?: string;
-  summary: Array<string>;
-  tags: Array<string>;
-  link: string;
-  image: string;
-}
-
-export const BlogAuthor: React.FC<BlogAuthorProps> = (
-  props: BlogAuthorProps
-) => {
-  const openInNewTab = (url: string) => {
-    window.open(url, "_blank", "noopener,noreferrer");
-  };
-  return (
-    <HStack marginTop="2" spacing="2" display="flex" alignItems="center">
-      <Button onClick={() => openInNewTab(props.link)}>Learn More</Button>
-      <Text>—</Text>
-      <Text>{props.date}</Text>
-    </HStack>
-  );
-};
-
-const SmallArticle = (props: SmallArticleProps) => {
-
+const SmallArticle = (props: Article) => {
+  const { topic, tags, date, one_line_summary, image } = props;
   return (
     <ChakraProvider>
       <WrapItem width={{ base: "100%", sm: "45%", md: "45%", lg: "30%" }}>
@@ -71,7 +26,7 @@ const SmallArticle = (props: SmallArticleProps) => {
             <Link textDecoration="none" _hover={{ textDecoration: "none" }}>
               <Image
                 transform="scale(1.0)"
-                src={props.image}
+                src={image}
                 alt="some text"
                 objectFit="contain"
                 width="100%"
@@ -82,18 +37,16 @@ const SmallArticle = (props: SmallArticleProps) => {
               />
             </Link>
           </Box>
-          <BlogTags tags={props.tags} marginTop="3" />
+          <ArticleTags tags={tags} marginTop="3" color={'red'} />
           <Heading fontSize="xl" marginTop="2">
             <Link textDecoration="none" _hover={{ textDecoration: "none" }}>
-              {props.title}
+              {topic}
             </Link>
           </Heading>
           <Text as="p" fontSize="md" marginTop="2">
-            {props.summary[0]}
-            {props.summary[1]}
-            {props.summary[2]}
+            {one_line_summary}
           </Text>
-          <BlogAuthor link={props.link} date={props.date} />
+          {/* <BlogAuthor link={props.link} date={props.date} /> */}
         </Box>
       </WrapItem>
     </ChakraProvider>
