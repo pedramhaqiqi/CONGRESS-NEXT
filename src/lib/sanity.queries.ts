@@ -1,36 +1,34 @@
-import type { PortableTextBlock } from '@portabletext/types'
-import type { ImageAsset, Slug } from '@sanity/types'
 import groq from 'groq'
 import { type SanityClient } from 'next-sanity'
 
-export const postsQuery = groq`*[_type == "post" && defined(slug.current)] | order(_createdAt desc)`
+import { Article } from '~/content'
 
-export async function getPosts(client: SanityClient): Promise<Post[]> {
-  return await client.fetch(postsQuery)
+const articleBySlugQuery = groq`
+*[_type == "article" && slug.current == $slug][0]{
+  ...,
+  "image": mainImage.asset->url,
 }
+`
 
-export const postBySlugQuery = groq`*[_type == "post" && slug.current == $slug][0]`
+const articlesQuery = groq`
+*[_type == "article"]{
+  ...,
+  "image": mainImage.asset->url,
+} | order(_createdAt desc)
+`
 
-export async function getPost(
+export async function getArticle(
   client: SanityClient,
   slug: string,
-): Promise<Post> {
-  return await client.fetch(postBySlugQuery, {
+): Promise<Article> {
+  return await client.fetch(articleBySlugQuery, {
     slug,
   })
 }
 
-export const postSlugsQuery = groq`
-*[_type == "post" && defined(slug.current)][].slug.current
-`
-
-export interface Post {
-  _type: 'post'
-  _id: string
-  _createdAt: string
-  title?: string
-  slug: Slug
-  excerpt?: string
-  mainImage?: ImageAsset
-  body: PortableTextBlock[]
+export async function getArticles(client: SanityClient): Promise<Article[]> {
+  return await client.fetch(articlesQuery)
 }
+
+
+
