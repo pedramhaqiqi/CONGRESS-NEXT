@@ -12,7 +12,7 @@ export default defineType({
     }),
     defineField({
       name: 'slug',
-      title: 'Slug',
+      title: 'slug',
       type: 'slug',
       options: {
         source: 'topic',
@@ -31,7 +31,7 @@ export default defineType({
     }),
    
     defineField({
-      name: 'Date',
+      name: 'date',
       title: 'date',
       type: 'text',
     }),
@@ -45,7 +45,7 @@ export default defineType({
     }),
     defineField({
       title: 'tags',
-      name: 'Tags',
+      name: 'tags',
       type: 'array',
       of: [{type: 'string'}]
     }),
