@@ -6,6 +6,11 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+    }),
+    defineField({
       name: 'topic',
       title: 'Topic',
       type: 'string',
@@ -13,11 +18,7 @@ export default defineType({
     defineField({
       name: 'slug',
       title: 'slug',
-      type: 'slug',
-      options: {
-        source: 'topic',
-        maxLength: 96,
-      },
+      type: 'string',
     }),
     defineField({
       name: 'one_line_summary',
@@ -32,7 +33,7 @@ export default defineType({
    
     defineField({
       name: 'date',
-      title: 'date',
+      title: 'Date',
       type: 'text',
     }),
     defineField({

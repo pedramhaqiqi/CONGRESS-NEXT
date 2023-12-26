@@ -14,15 +14,33 @@ const headers = {
   'Authorization': `Bearer ${apiToken}`,
   'Content-Type': 'application/json',
 };
+const timestamp = Date.now();
+const uniqueId = `article_${timestamp}`;
 
 // Construct the API endpoint URL
 const apiUrl = `https://${projectId}.api.sanity.io/v1/data/mutate/${projectId}`;
 
+function slugify(text) {
+  return text.toString().toLowerCase()
+    .replace(/\s+/g, '-')           // Replace spaces with -
+    .replace(/[^\w\-]+/g, '')       // Remove all non-word characters
+    .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+    .replace(/^-+/, '')             // Trim - from start of text
+    .replace(/-+$/, '');            // Trim - from end of text
+}
+const slug = slugify("article-topic");
+
 const mutations = [{
   createOrReplace: {
-    _id: '123',
-    _type: 'post',
-    title: 'poest2'
+    _id: uniqueId,
+    _type: 'article',
+    title: 'Article3',
+    topic:"topic",
+    slug:slug,
+    one_line_summary:"ONE LINE SUM",
+    four_line_summary:"FOUR LINE SUM",
+    date:"YYYY/MM/DD",
+    tags: ["tag1", "tag2", "tag3"],
   }
 }]
 
