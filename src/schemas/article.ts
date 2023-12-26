@@ -1,30 +1,39 @@
 import { defineField, defineType } from 'sanity'
 
 export default defineType({
-  name: 'post',
-  title: 'Post',
+  name: 'article',
+  title: 'Article',
   type: 'document',
   fields: [
     defineField({
-      name: 'title',
-      title: 'Title',
+      name: 'topic',
+      title: 'Topic',
       type: 'string',
     }),
     defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      validation: (Rule) => Rule.required(),
       options: {
-        source: 'title',
+        source: 'topic',
         maxLength: 96,
       },
     }),
     defineField({
-      name: 'excerpt',
-      title: 'Excerpt',
+      name: 'one_line_summary',
+      title: 'One line summary',
       type: 'text',
-      rows: 4,
+    }),
+    defineField({
+      name: 'four_line_summary',
+      title: 'Four line summary',
+      type: 'text',
+    }),
+   
+    defineField({
+      name: 'Date',
+      title: 'date',
+      type: 'text',
     }),
     defineField({
       name: 'mainImage',
@@ -35,9 +44,10 @@ export default defineType({
       },
     }),
     defineField({
-      name: 'body',
-      title: 'Body',
-      type: 'blockContent',
+      title: 'tags',
+      name: 'Tags',
+      type: 'array',
+      of: [{type: 'string'}]
     }),
   ],
   preview: {
