@@ -37,7 +37,6 @@ def _fetch_title_and_summaries(transcript):
     url = "https://api.openai.com/v1/chat/completions"
     data = {
         "model": TEXT_MODEL,
-        "response_format": { "type": "json_object" },
         "messages": [
             {
                 "role": "system",
@@ -69,13 +68,6 @@ if __name__ == "__main__":
 
     # Get the summary for the transcript
     result = _fetch_title_and_summaries(transcript_content)
-    print("Topic:", result['topic'])
-    print("One sentence summary:", result['one_sentence_summary'])
-    print("Four sentence summary:", result['four_sentence_summary'])
-    print("Tags:", result['tags'])
-    print("Date:", result['date'])
-
-    # Generate an image using the title
-    topic = "Supplementary Estimates and Housing Finance"
-    image_url = fetch_image_from_title(topic)
-    print("Image url:", image_url)
+    image_url = fetch_image_from_title(result['four_sentence_summary'])
+    result['image_url'] = image_url
+    print(json.dumps(result))
