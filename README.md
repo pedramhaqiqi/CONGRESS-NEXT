@@ -1,4 +1,4 @@
-<img align = "center" alt="vectre-image" src="public/assets/logo_banner.png">
+<img align = "center" alt="vectre-image" src="public/assets/congress-banner.png">
 
 <h6 align="center">
   
@@ -30,10 +30,6 @@ For scalability, it also stores summaries and AI-images for each proceeding in a
 - [Django REST](https://www.django-rest-framework.org/) (Server Application/Framework)
 - [Sqlite3](https://www.sqlite.org/index.html) (Database)
 
-## Architecture Diagram ✏️
-
-<img align = "center" src="public/assets/architecture.png">
-
 ## Contributors ✨
 
 - Pedram Meskoub [Linkedin](https://www.linkedin.com/in/pedramhaqiqi/)
@@ -43,9 +39,4 @@ For scalability, it also stores summaries and AI-images for each proceeding in a
 - Shahin Jowkar Dris [Linkedin](https://www.linkedin.com/in/shahinjowkar)
 
 ## Project Screenshot 📸
-
-<img align = "center" src="public/assets/demo_screenshot.png">
-
-## 🍒 on the 🎂
-
 <img align = "center" src="public/assets/darkmode_ss.png">
