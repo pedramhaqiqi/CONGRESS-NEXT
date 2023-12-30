@@ -3,6 +3,7 @@ import yaml
 import json
 import os
 import regex as re
+import sys
 
 with open('auth.yaml', 'r') as file:
     OPENAI_API_KEY = yaml.load(file, Loader=yaml.FullLoader)['openai_api_key']
