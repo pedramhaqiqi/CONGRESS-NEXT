@@ -4,13 +4,18 @@ import json
 import os
 import regex as re
 import sys
+from openai import OpenAI
+
+client = OpenAI()
 
 with open('auth.yaml', 'r') as file:
     OPENAI_API_KEY = yaml.load(file, Loader=yaml.FullLoader)['openai_api_key']
 with open('config.yaml', 'r') as file:
     config = yaml.load(file, Loader=yaml.FullLoader)
 
-TEXT_MODEL = config['settings']['text_model']
+DEV = config['settings']['dev']
+DEV_MODEL = config['settings']['dev_model']
+PROD_MODEL = config['settings']['prod_model']
 IMAGE_MODEL = config['settings']['image_model']
 MAX_TOKENS = config['settings']['max_tokens']
 TEMPERATURE = config['settings']['temperature']
@@ -55,31 +60,24 @@ def _fetch_title_and_summaries(transcript):
         4) A list of three one-word tags related to the hearing
         5) The date of the hearing in the same format as seen in the transcript
 
-        Ensure your response is a valid JSON string with keys "topic", "one_sentence_summary", "four_sentence_summary", "tags", and "date".
+        Ensure your response is only a valid JSON string with keys "topic", "one_sentence_summary", "four_sentence_summary", "tags", and "date".
         \"\"\"
         {transcript}
         \"\"\"
     """
 
-    url = "https://api.openai.com/v1/chat/completions"
-    data = {
-        "model": TEXT_MODEL,
-        "messages": [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant."
-            },
-            {
-                "role": "user",
-                "content": prompt
-            }
+    response = client.chat.completions.create(
+        model= DEV_MODEL if DEV else PROD_MODEL,
+        response_format={ "type": "json_object" },
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant designed to output JSON."},
+            {"role": "user", "content": prompt}
         ]
-    }
+    )
 
-    response = session.post(url, json=data)
-    response_json_text = response.json()['choices'][0]['message']['content']
-    return json.loads(response_json_text)
-
+    return json.loads(response.choices[0].message.content)
+    
+    
 def fetch_image_from_title(title):
     """
     Fetches an image related to the given title.
@@ -96,6 +94,7 @@ def fetch_image_from_title(title):
         "model": IMAGE_MODEL
     }
     response = session.post(url, json=data)
+    print(response.json())
     return response.json()['data'][0]['url']
 
 if __name__ == "__main__":
@@ -105,13 +104,17 @@ if __name__ == "__main__":
         memory = json.load(file)
 
     for file in yield_files('articles'):
+        print('files yielded', file)
         match = re.search(pattern, file)
         if not match:
             raise Exception("No match found Error")
         last_part = match.group(1)
+        print('last', last_part)
         if last_part not in [file for file in memory['memory']]:
+            print('not in memory')
             with open(file, 'r', encoding='utf-8') as file:        
                 result = _fetch_title_and_summaries(file.read())
+                print('result', result)
                 image_url = fetch_image_from_title(result['four_sentence_summary'])
                 result['image_url'] = image_url
             print(json.dumps(result))

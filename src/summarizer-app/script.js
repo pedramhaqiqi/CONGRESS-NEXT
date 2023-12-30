@@ -48,6 +48,7 @@ async function runPythonScript() {
     
     
   } catch (error) {
+    console.log(error);
     return 1
 
   }
