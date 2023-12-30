@@ -6,14 +6,12 @@ import { Article } from '~/content'
 const articleBySlugQuery = groq`
 *[_type == "article" && slug.current == $slug][0]{
   ...,
-  "image": mainImage.asset->url,
 }
 `
 
 const articlesQuery = groq`
 *[_type == "article"]{
   ...,
-  "image": mainImage.asset->url,
 } | order(_createdAt desc)
 `
 

@@ -10,6 +10,8 @@ import ArticleTags from "~/views/components/Tags";
 
 const RecentHearing = (props: Article) => {
   const { topic, one_line_summary, image, tags } = props;
+  console.log(props);
+  console.log(image)
   return (
     <Box>
       <Box
