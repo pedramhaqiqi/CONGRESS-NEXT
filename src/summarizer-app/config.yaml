@@ -1,5 +1,5 @@
 settings:
-  text_model: gpt-3.5-turbo-16k
+  text_model: gpt-3.5-turbo
   image_model: dall-e-3
   max_tokens: 100
   temperature: 0

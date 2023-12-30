@@ -37,12 +37,9 @@ export default defineType({
       type: 'text',
     }),
     defineField({
-      name: 'mainImage',
-      title: 'Main image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
+      name: 'image',
+      title: 'Image',
+      type: 'string',
     }),
     defineField({
       title: 'tags',
