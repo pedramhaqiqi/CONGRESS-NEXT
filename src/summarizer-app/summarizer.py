@@ -21,12 +21,30 @@ session.headers.update({
 })
 
 def yield_files(directory):
+    """
+    Generator function that yields the file paths of all files in a given directory.
+
+    Args:
+        directory (str): The directory path.
+
+    Yields:
+        str: The file path of each file in the directory.
+    """
     for root, dirs, files in os.walk(directory):
         for file in files:
             yield os.path.join(root, file)
 
 
 def _fetch_title_and_summaries(transcript):
+    """
+    Fetches the title and summaries of a parliament hearing transcript.
+
+    Args:
+        transcript (str): The transcript of the parliament hearing.
+
+    Returns:
+        dict: A dictionary containing the topic, one sentence summary, four sentence summary, tags, and date of the hearing.
+    """
     prompt = f"""
         Below is a parliament hearing transcript. Analyze it and provide the following:
 
@@ -62,6 +80,15 @@ def _fetch_title_and_summaries(transcript):
     return json.loads(response_json_text)
 
 def fetch_image_from_title(title):
+    """
+    Fetches an image related to the given title.
+
+    Args:
+        title (str): The title of the hearing.
+
+    Returns:
+        str: The URL of the fetched image.
+    """
     url = "https://api.openai.com/v1/images/generations"
     data = {
         "prompt": f"Draw me an image related to the topic of {title}. Do not include any text in your image.",
@@ -71,7 +98,7 @@ def fetch_image_from_title(title):
     return response.json()['data'][0]['url']
 
 if __name__ == "__main__":
-    # Get the transcript
+    # Checks if the files in articles have been processed before, and only processes the new ones
     pattern = r"/([^/]+)$"
     with open('memory.json', 'r') as file:
         memory = json.load(file)
@@ -90,3 +117,5 @@ if __name__ == "__main__":
             memory['memory'].append(last_part)
             with open('memory.json', 'w') as file:
                 json.dump(memory, file)
+            exit(0)
+    exit(1)
