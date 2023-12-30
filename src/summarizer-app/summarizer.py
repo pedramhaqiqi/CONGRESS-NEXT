@@ -1,6 +1,8 @@
 import requests
 import yaml
 import json
+import os
+import regex as re
 
 with open('auth.yaml', 'r') as file:
     OPENAI_API_KEY = yaml.load(file, Loader=yaml.FullLoader)['openai_api_key']
@@ -17,6 +19,12 @@ session.headers.update({
     "Content-Type": "application/json",
     "Authorization": f"Bearer {OPENAI_API_KEY}"
 })
+
+def yield_files(directory):
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            yield os.path.join(root, file)
+
 
 def _fetch_title_and_summaries(transcript):
     prompt = f"""
@@ -63,11 +71,22 @@ def fetch_image_from_title(title):
     return response.json()['data'][0]['url']
 
 if __name__ == "__main__":
-    with open("dummy_transcript.txt", 'r', encoding='utf-8') as file:
-        transcript_content = file.read()
+    # Get the transcript
+    pattern = r"/([^/]+)$"
+    with open('memory.json', 'r') as file:
+        memory = json.load(file)
 
-    # Get the summary for the transcript
-    result = _fetch_title_and_summaries(transcript_content)
-    image_url = fetch_image_from_title(result['four_sentence_summary'])
-    result['image_url'] = image_url
-    print(json.dumps(result))
+    for file in yield_files('articles'):
+        match = re.search(pattern, file)
+        if not match:
+            raise Exception("No match found Error")
+        last_part = match.group(1)
+        if last_part not in [file for file in memory['memory']]:
+            with open(file, 'r', encoding='utf-8') as file:        
+                result = _fetch_title_and_summaries(file.read())
+                image_url = fetch_image_from_title(result['four_sentence_summary'])
+                result['image_url'] = image_url
+            print(json.dumps(result))
+            memory['memory'].append(last_part)
+            with open('memory.json', 'w') as file:
+                json.dump(memory, file)
