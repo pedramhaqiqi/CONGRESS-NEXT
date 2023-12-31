@@ -2,10 +2,6 @@
 
 .vscode
 
-#
-src/summarizer-app/auth.yaml
-
-
 # dependencies
 /node_modules
 /studio/node_modules
