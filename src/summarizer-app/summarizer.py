@@ -5,6 +5,7 @@ import os
 import regex as re
 import sys
 from openai import OpenAI
+from datetime import datetime
 
 client = OpenAI()
 
@@ -94,34 +95,71 @@ def fetch_image_from_title(title):
         "model": IMAGE_MODEL
     }
     response = session.post(url, json=data)
-    print(response.json())
     return response.json()['data'][0]['url']
 
 
 def process_files(directory, memory):
+    """
+    Processes the files in a given directory. 
+    Processed one file at a time.
+    appends the file name to memory.json after processing.
+
+
+    Args:
+        directory (str): The directory path.
+        memory (dict): The memory dictionary.
+
+    Raises:
+        FileNotFoundError: If no match is found for a file path.
+    """
     pattern = re.compile(r"/([^/]+)$")
     for file_path in yield_files(directory):
-        print('files yielded', file_path)
         match = pattern.search(file_path)
         if not match:
             raise FileNotFoundError(f"No match found for {file_path}")
         last_part = match.group(1)
         if last_part not in memory['memory']:
             process_file(file_path, last_part, memory)
+            break
 
 def process_file(file_path, last_part, memory):
+    """
+    Processes a single file.
+    Passes the file to _fetch_title_and_summaries and fetch_image_from_title.
+    Which get title and summaries from OpenAI and fetches an image from OpenAI.
+
+    Args:
+        file_path (str): The file path.
+        last_part (str): The last part of the file path.
+        memory (dict): The memory dictionary.
+    """
     with open(file_path, 'r', encoding='utf-8') as article_file:
         result = _fetch_title_and_summaries(article_file.read())
         image_url = fetch_image_from_title(result['four_sentence_summary'])
-        result['image_url'] = image_url
     # Script.js reads from stdout
+    response = requests.get(image_url)
+    if response.status_code == 200:
+        #Get Date time for unique image name
+        date = datetime.now().strftime("%Y%m%d%H%M%S")
+        with open(f"images/{date}.jpg", "wb") as file:
+            # Write the content of the response (the image) to the file
+            file.write(response.content)
+        result['image_name'] = date
+    else:
+        print("Image downloaded failed.")
+        sys.exit(1)
     print(json.dumps(result))
     memory['memory'].append(last_part)
     with open('memory.json', 'w') as memory_file:
         json.dump(memory, memory_file)
 
 if __name__ == "__main__":
+    #Create memory.json with intial value of {memory: []} if it does not exist
+    if not os.path.exists("memory.json"):
+        with open('memory.json', 'w') as memory_file:
+            json.dump({'memory': []}, memory_file)
+
     # Checks if the files in articles have been processed before, and only processes the new ones
-    with open('memory.json', 'r') as memory_file:
+    with open('memory.json', 'r', ) as memory_file:
         memory = json.load(memory_file)
         process_files('articles', memory)
