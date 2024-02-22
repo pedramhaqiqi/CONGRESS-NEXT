@@ -39,7 +39,7 @@ export default defineType({
     defineField({
       name: 'image',
       title: 'Image',
-      type: 'string',
+      type: 'image',
     }),
     defineField({
       title: 'tags',

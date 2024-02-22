@@ -12,6 +12,7 @@ const articleBySlugQuery = groq`
 const articlesQuery = groq`
 *[_type == "article"]{
   ...,
+  "image": image.asset->url
 } | order(_createdAt desc)
 `
 
